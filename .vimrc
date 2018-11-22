@@ -126,29 +126,25 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-" Copy and Paste
+" Save
+noremap <C-w>w <Esc>:w<CR>
+" Exit (same as tmux)
+noremap <C-d> <Esc>:q<CR>
+" View command line
+nnoremap ~ :!echo<CR>
+" Cut, Copy and Paste from + register
 :inoremap <C-v> <ESC>"+pa
 :vnoremap <C-c> "+y
 :vnoremap <C-x> "+d
 
-" === Save
-map <F4> <Esc>:w!<CR>
-
 " === Python Autopep8
+let g:autopep8_on_save = 1
 autocmd FileType python noremap <buffer> <C-P> :call Autopep8()<CR>
-
 " === Python Write and Run File
-au FileType python map <C-E> <Esc>:w<CR>:!clear;python %<CR>
+au FileType python map <C-e> <Esc>:w<CR>:!clear;python %<CR>
 
 " === Python Flake8
 autocmd FileType python map <buffer> <C-F> :call Flake8()<CR>
-
-" === See Command Line
-nnoremap ~ :!echo<CR>
-
-" === Close Pane (same as tmux detach)
-noremap <C-d> <Esc>:q!<CR>
 
 " === Other configs
 set nu
