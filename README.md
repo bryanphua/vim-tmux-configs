@@ -49,7 +49,7 @@ And in .vimrc:
 set background=dark
 ```
 
-### 7: Swapping <Esc> with <Caps>
+### 7: Swapping \<Esc\> with \<Caps\>
 ```
 sudo apt-get install gnome-tweak-tool
 ```
