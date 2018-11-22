@@ -40,8 +40,9 @@ pip install --upgrade autopep8
 git clone https://github.com/arl/tmux-gitbar.git ~/.tmux-gitbar
 ```
 
-### 6: To Fix Difference in Color in Tmux (Ubuntu)
+### 6: To fix difference in color in tmux vim and normal vim (Ubuntu)
 These are already in the dotfiles
+
 In .tmux.conf:
 ```
 set -g default-terminal "screen-256color"
