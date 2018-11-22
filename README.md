@@ -33,13 +33,15 @@ cd ~/.vim/bundle/YouCompleteMe
 ### 4: Install vim-autopep8
 Follow the installation instructions [here](https://github.com/tell-k/vim-autopep8)
 
-### 5: Install Other Requirements
+### 5: Install requirements
 ```
 pip install flake8
 pip install --upgrade autopep8 
+git clone https://github.com/arl/tmux-gitbar.git ~/.tmux-gitbar
 ```
 
 ### 6: To Fix Difference in Color in Tmux (Ubuntu)
+These are already in the dotfiles
 In .tmux.conf:
 ```
 set -g default-terminal "screen-256color"
