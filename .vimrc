@@ -79,12 +79,6 @@ au BufNewFile,BufRead *.py
 	\ set fileformat=unix
 	\ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 
-" === Python Autopep8
-autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
-
-" === Python Write and Run File
-au FileType python map <F5> <Esc>:w<CR>:!clear;python %<CR>
-
 " === NERDTree
 " Shortcut to open NERDTree (Ctrl-n)
 map <C-n> :NERDTreeToggle<CR>
@@ -105,31 +99,53 @@ syntax on
 " === Snippets
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger = '<C-j>'
-"let g:UltiSnipsJumpForwardTrigger = '<C-j>j'
-"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+	return snippet
+    else
+	return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+" === Relative Numbering
+:set relativenumber!
 
 " === General Mappings
-" Save
-map <F4> <Esc>:w!<CR>
 " Panes
-map <C-j>j <C-W>j
-map <C-k>k <C-W>k
-map <C-h>h <C-W>h
-map <C-l>l <C-W>l
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 " Copy and Paste
 :inoremap <C-v> <ESC>"+pa
 :vnoremap <C-c> "+y
 :vnoremap <C-d> "+d
 
+" === Save
+map <F4> <Esc>:w!<CR>
+
+" === Python Autopep8
+autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+
+" === Python Write and Run File
+au FileType python map <F5> <Esc>:w<CR>:!clear;python %<CR>
+
+" === See Command Line
+nnoremap ~ :!echo<CR>
+
+" === Other configs
 set nu
 set noswapfile
 set formatoptions-=tc
 set background=dark
-
