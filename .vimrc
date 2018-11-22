@@ -130,19 +130,25 @@ map <C-l> <C-W>l
 " Copy and Paste
 :inoremap <C-v> <ESC>"+pa
 :vnoremap <C-c> "+y
-:vnoremap <C-d> "+d
+:vnoremap <C-x> "+d
 
 " === Save
 map <F4> <Esc>:w!<CR>
 
 " === Python Autopep8
-autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+autocmd FileType python noremap <buffer> <C-P> :call Autopep8()<CR>
 
 " === Python Write and Run File
-au FileType python map <F5> <Esc>:w<CR>:!clear;python %<CR>
+au FileType python map <C-E> <Esc>:w<CR>:!clear;python %<CR>
+
+" === Python Flake8
+autocmd FileType python map <buffer> <C-F> :call Flake8()<CR>
 
 " === See Command Line
 nnoremap ~ :!echo<CR>
+
+" === Close Pane (same as tmux detach)
+noremap <C-d> <Esc>:q!<CR>
 
 " === Other configs
 set nu
