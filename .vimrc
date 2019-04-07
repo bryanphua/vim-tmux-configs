@@ -15,13 +15,29 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic' 
 Plugin 'nvie/vim-flake8'
-Plugin 'tmhedberg/SimpylFold'
+"Plugin 'tmhedberg/SimpylFold'
+Plugin 'kalekundert/vim-coiled-snake'
+Plugin 'Konfekt/FastFold'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'christoomey/vim-tmux-navigator'
+"Plugin 'Shougo/echodoc'
+"Plugin 'klen/python-mode'
+
+" Markdown
+Plugin 'shime/vim-livedown'
+Plugin 'tpope/vim-markdown'
+
+"Others
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+"Color Schemes
+Plugin 'liuchengxu/space-vim-dark'
+Plugin 'cormacrelf/vim-colors-github'
 " <============================================>
 " All of your Plugins must be added before the following line
 
@@ -46,7 +62,9 @@ nnoremap za zM
 nnoremap zj ]z
 nnoremap zk [z
 
-set foldlevel=1
+set foldmethod=indent
+"set foldlevel=1
+"set foldnestmax=2
 " folding display
 function! NeatFoldText()
 	let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
@@ -68,16 +86,31 @@ vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
 
 let g:NERDDefaultAlign = 'left'
 
+" === Syntastic
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 0
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
 " === Python PEP8
 au BufNewFile,BufRead *.py
-	\ set tabstop=4 |
 	\ set softtabstop=4 |
 	\ set shiftwidth=4 |
 	\ set textwidth=79 |
 	\ set expandtab |
 	\ set autoindent |
-	\ set fileformat=unix
-	\ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+	\ set fileformat=unix |
+	\ set cinwords=if,elif,else,for,while,try,except,finally,def,class,with 
+au BufNewFile,BufRead *.md
+	\ set softtabstop=2 |
+	\ set shiftwidth=2 |
+	\ set autoindent |
+	\ set fileformat=unix |
+	\ colorscheme space-vim-dark
 
 " === NERDTree
 " Shortcut to open NERDTree (Ctrl-n)
@@ -90,8 +123,18 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " === YouCompleteMe
 " python semantic completion
+"
+let g:ycm_seed_identifiers_with_syntax = 1 "for builtin functions
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 0
+set splitbelow
 let g:ycm_python_binary_path='python'
-
+let g:ycm_semantic_triggers = {
+						\ 'python': ['re!\w{4}', 're!from\s+\S+\s+import\s']
+						\} "autocomplete for from x import y type of imports
+nnoremap " :YcmCompleter GetDoc<CR>
+"
 " === Syntax Checking/Highlighting
 "let python_highlight_all=1
 syntax on
@@ -104,12 +147,12 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
 let g:ulti_expand_or_jump_res = 0
 function ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
+	let snippet = UltiSnips#ExpandSnippetOrJump()
+	if g:ulti_expand_or_jump_res > 0
 	return snippet
-    else
+	else
 	return "\<CR>"
-    endif
+	endif
 endfunction
 inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
@@ -151,3 +194,28 @@ set nu
 set noswapfile
 set formatoptions-=tc
 set background=dark
+set tabstop=4 |
+
+" highlight when text length exceed 80 char
+highlight OverLength ctermbg=red ctermfg=white guibg=#111111 
+match OverLength /\%81v.\+/ 
+
+" toggle highlight when text length exceed 80 char
+let s:activatedh = 1 
+function! ToggleH()
+	highlight OverLength ctermbg=red ctermfg=white guibg=#111111
+    if s:activatedh == 0
+        let s:activatedh = 1 
+		highlight OverLength ctermbg=red ctermfg=white guibg=#111111
+        match OverLength '\%>80v.\+'
+    else
+        let s:activatedh = 0 
+        match none
+    endif
+endfunction
+
+nnoremap <leader>1 :call ToggleH()<CR>
+
+hi Folded ctermbg=0
+
+let g:markdown_folding = 1
