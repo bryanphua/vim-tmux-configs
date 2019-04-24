@@ -1,0 +1,77 @@
+snippet cwd "Current Working Directory" !b
+`!p snip.rv = "hello"`
+endsnippet
+
+snippet selfae "TestCase assertEquals" !b
+self.assertEqual(${1:output}, ${2:expected_output})
+endsnippet
+
+snippet djangoscript "Imports for django script" !b
+# django script imports
+import sys
+import os
+import django
+import unittest
+sys.path.append('/home/ubuntu/${1:omniscience}')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
+django.setup()
+# remove this when done
+
+endsnippet
+
+snippet testdjangoscript "Imports for django script in test environment" !b
+# django script imports
+import sys
+import os
+import django
+import unittest
+from django.core.management import call_command
+from django.conf import settings
+sys.path.append('/home/ubuntu/omniscience')
+from config.settings.base import get_database_settings
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.test")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.test")
+os.environ.setdefault("DJANGO_CONFIGURATION", "Test")
+os.environ.setdefault("POSTGRES_PASSWORD", "secret")
+settings.INSTALLED_APPS.remove('test_without_migrations')
+settings.POSTGRES_DATABASES_URL, settings.DATABASES = get_database_settings(
+    prefix='test_')
+django.setup()
+# remove this when done
+
+endsnippet
+
+snippet import_gas_europe "import from wormhole.gas.europe" !b
+${1:from} omniscience.wormhole.integrations.gas.europe.gas_europe_${2:source}.${3:file} 
+endsnippet
+
+snippet test_dir= "get test directory path"
+test_dir = os.path.dirname(os.path.abspath(__file__))
+test_dir = os.path.join(test_dir, 'test_data${1:/}')
+endsnippet
+
+snippet modelimport "snippet for model imports"
+from omniscience.wormhole.common import BaseModel
+from django.db import models
+endsnippet
+
+snippet LOG "get logger" !b
+LOG = logging.getLogger(__name__)
+endsnippet
+
+snippet APPNAME "snippet to get directory name"
+import os
+
+APP_NAME = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
+endsnippet
+
+
+snippet worm_meta "required attributes for wormhole model metadata class"
+time_field = 
+data_identifiers = [
+
+    ]
+data_columns = [
+
+    ]
+endsnippet

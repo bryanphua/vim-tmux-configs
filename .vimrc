@@ -28,7 +28,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'klen/python-mode'
 
 " Markdown
-Plugin 'shime/vim-livedown'
+"Plugin 'shime/vim-livedown'
+Plugin 'suan/vim-instant-markdown'
 Plugin 'tpope/vim-markdown'
 
 "Others
@@ -219,3 +220,5 @@ nnoremap <leader>1 :call ToggleH()<CR>
 hi Folded ctermbg=0
 
 let g:markdown_folding = 1
+
+let g:ycm_filetype_blacklist = {}
