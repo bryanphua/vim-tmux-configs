@@ -31,13 +31,25 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'shime/vim-livedown'
 Plugin 'tpope/vim-markdown'
 
+" CSS
+Plugin 'JulesWang/css.vim'
+
+" Linting
+Plugin 'w0rp/ale'
+
 "Others
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'xolox/vim-notes.git'
+Plugin 'xolox/vim-misc'
 
 "Color Schemes
 Plugin 'liuchengxu/space-vim-dark'
 Plugin 'cormacrelf/vim-colors-github'
+Plugin 'tomasr/molokai'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+
+
 " <============================================>
 " All of your Plugins must be added before the following line
 
@@ -112,6 +124,14 @@ au BufNewFile,BufRead *.md
 	\ set fileformat=unix |
 	\ colorscheme space-vim-dark
 
+au BufNewFile,BufRead *.html,*.vue
+	\ set softtabstop=2 |
+	\ set shiftwidth=2 |
+	\ set autoindent |
+	\ set fileformat=unix |
+
+
+
 " === NERDTree
 " Shortcut to open NERDTree (Ctrl-n)
 map <C-n> :NERDTreeToggle<CR>
@@ -122,8 +142,6 @@ let g:NERDTreeDirArrowCollapsible='v'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " === YouCompleteMe
-" python semantic completion
-"
 let g:ycm_seed_identifiers_with_syntax = 1 "for builtin functions
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_add_preview_to_completeopt = 1
@@ -133,7 +151,8 @@ let g:ycm_python_binary_path='python'
 let g:ycm_semantic_triggers = {
 						\ 'python': ['re!\w{4}', 're!from\s+\S+\s+import\s']
 						\} "autocomplete for from x import y type of imports
-nnoremap " :YcmCompleter GetDoc<CR>
+"nnoremap " :YcmCompleter GetDoc<CR>
+let g:ycm_filetype_blacklist = {}
 "
 " === Syntax Checking/Highlighting
 "let python_highlight_all=1
@@ -183,6 +202,7 @@ nnoremap ~ :!echo<CR>
 " === Python Autopep8
 let g:autopep8_on_save = 1
 autocmd FileType python noremap <buffer> <C-P> :call Autopep8()<CR>
+
 " === Python Write and Run File
 au FileType python map <C-e> <Esc>:w<CR>:!clear;python %<CR>
 
@@ -194,7 +214,8 @@ set nu
 set noswapfile
 set formatoptions-=tc
 set background=dark
-set tabstop=4 |
+set tabstop=4
+set expandtab
 
 " highlight when text length exceed 80 char
 highlight OverLength ctermbg=red ctermfg=white guibg=#111111 
@@ -219,3 +240,17 @@ nnoremap <leader>1 :call ToggleH()<CR>
 hi Folded ctermbg=0
 
 let g:markdown_folding = 1
+
+let g:molokai_original = 1
+
+" Vim-Notes
+:let g:notes_suffix = '.txt'
+:let g:notes_directories = ['~/Desktop/Notes']
+
+let g:ale_fixers = {'css': ['eslint']}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\   'html': ['prettier'],
+\}
